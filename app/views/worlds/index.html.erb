@@ -1,0 +1,33 @@
+<h1><%= @location.title %></h1>
+<p>Size: <%= @location.size %></p>
+<p>
+<table>
+  <tr>
+    <th>Location</th>
+    <th>Size</th>
+  </tr>
+  <% @paths.each do |path| %>
+      <tr>
+        <td><a href="worlds/<%= path.id %>"><%= path.title %></a></td>
+        <td><%= path.size %></td>
+      </tr>
+  <% end %>
+</table>
+</p>
+<p>
+(Placeholder)
+<table>
+  <tr>
+    <th>NPC</th>
+    <th>Action</th>
+  </tr>
+  <% @paths.each do |path| %>
+      <tr>
+        <td><a href="worlds/<%= path.id %>"><%= path.title %></a></td>
+        <td><%= path.size %></td>
+      </tr>
+  <% end %>
+</table>
+(/Placeholder)
+</p>
+<p><a href="#">Claim</a></p>

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  size: 1
+  connect: MyString
+  hidden: false
+  lock: false
+
+two:
+  title: MyString
+  size: 1
+  connect: MyString
+  hidden: false
+  lock: false

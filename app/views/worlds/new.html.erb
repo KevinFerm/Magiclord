@@ -1,0 +1,48 @@
+<%= form_for :world, url: worlds_path do |f| %>
+    <% if @world.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@world.errors.count, "error") %> prohibited
+            this article from being saved:</h2>
+          <ul>
+            <% @world.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <p>
+      <%= f.label :title %><br>
+      <%= f.text_field :title %>
+    </p>
+
+    <p>
+      <%= f.label :size %><br>
+      <%= f.number_field :size %>
+    </p>
+
+    <p>
+      <%= f.label :connect %><br>
+      <%= f.text_field :connect %>
+    </p>
+
+    <p>
+      <%= f.submit %>
+    </p>
+<% end %>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Title</th>
+    <th>Size</th>
+    <th>Connect</th>
+  </tr>
+  <% @all.each do |world| %>
+      <tr>
+        <td><%= world.id %></td>
+        <td><%= world.title %></td>
+        <td><%= world.size %></td>
+        <td><%= world.connect %></td>
+      </tr>
+  <% end %>
+</table>
