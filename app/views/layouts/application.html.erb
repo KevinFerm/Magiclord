@@ -14,8 +14,19 @@
     <li><a href="worlds">World</a></li>
     <li><a href="#">Inventory</a></li>
     <li><a href="#">Quest</a></li>
+    <% if user_signed_in? %>
+        <li><%= link_to 'Logout', logout_path %></li>
+    <% else %>
+        <li><%= link_to 'Login', login_path %></li>
+    <% end %>
+
   </ul>
 </div>
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+<% if user_signed_in?
+    current_user
+    end %>
 <%= yield %>
 
 </body>
