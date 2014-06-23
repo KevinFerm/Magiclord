@@ -24,7 +24,10 @@
       <%= f.label :connect %><br>
       <%= f.text_field :connect %>
     </p>
-
+    <p>
+      <%= f.label :biome %><br>
+      <%= f.select(:title, :title_id, @biome) %>
+    </p>
     <p>
       <%= f.submit %>
     </p>

@@ -11,7 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140621224131) do
+ActiveRecord::Schema.define(version: 20140622200709) do
+
+  create_table "biomes", force: true do |t|
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "characters", force: true do |t|
+    t.string   "Name"
+    t.integer  "Strength"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "",    null: false
@@ -32,14 +45,7 @@ ActiveRecord::Schema.define(version: 20140621224131) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
-  create_table "worlds", force: true do |t|
-    t.string   "title"
-    t.integer  "size"
-    t.string   "connect"
-    t.boolean  "hidden"
-    t.boolean  "lock"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+# Could not dump table "worlds" because of following NoMethodError
+#   undefined method `[]' for nil:NilClass
 
 end

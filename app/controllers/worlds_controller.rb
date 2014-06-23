@@ -22,7 +22,7 @@ class WorldsController < ApplicationController
 
   def create # Add Generation later
     @world = World.new(world_params)
-
+    @biome = Biomes.all.map { |p| [p.title, p.title] }
     if @world.save
       redirect_to @world
     else

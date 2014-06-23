@@ -1,14 +1,17 @@
 <h1><%= @location.title %></h1>
 <p>Size: <%= @location.size %></p>
 <p>
-<table>
+<table class="pure-table">
   <tr>
     <th>Location</th>
+    <th>Biome</th>
     <th>Size</th>
   </tr>
+
   <% @paths.each do |path| %>
       <tr>
         <td><a href="worlds/<%= path.id %>"><%= path.title %></a></td>
+        <td><%= path.biome %></td>
         <td><%= path.size %></td>
       </tr>
   <% end %>
@@ -16,7 +19,7 @@
 </p>
 <p>
 (Placeholder)
-<table>
+<table class="pure-table">
   <tr>
     <th>NPC</th>
     <th>Action</th>
@@ -24,10 +27,30 @@
   <% @paths.each do |path| %>
       <tr>
         <td><a href="worlds/<%= path.id %>"><%= path.title %></a></td>
-        <td><%= path.size %></td>
+        <td><a href="worlds/<%= path.id %>">Talk</a> |
+          <a href="worlds/<%= path.id %>">Attack</a> |
+          <a href="worlds/<%= path.id %>">Analyze</a> |
+          <a href="worlds/<%= path.id %>">Steal</a></td>
+      </tr>
+  <% end %>
+</table>
+(/Placeholder)
+</p><p>
+(Placeholder)
+<table class="pure-table">
+  <tr>
+    <th>Player</th>
+    <th>Action</th>
+  </tr>
+  <% @paths.each do |path| %>
+      <tr>
+        <td><a href="worlds/<%= path.id %>"><%= path.title %></a></td>
+        <td><a href="worlds/<%= path.id %>">Talk</a> |
+          <a href="worlds/<%= path.id %>">Attack</a> |
+          <a href="worlds/<%= path.id %>">Steal</a></td>
       </tr>
   <% end %>
 </table>
 (/Placeholder)
 </p>
-<p><a href="#">Claim</a></p>
+<p><a href="#">Claim</a> <a href="#">Search</a></p>
