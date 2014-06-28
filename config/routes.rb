@@ -6,8 +6,9 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'home#index'
-
+  post 'worlds/generate_new_area' => "worlds#generate_new_area"
   resources :worlds
+  resources :guide
 
   devise_scope :user do
     get "login", to: "devise/sessions#new"

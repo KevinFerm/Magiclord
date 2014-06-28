@@ -1,0 +1,36 @@
+<%= form_for :guide, url: guide_index_path do |f| %>
+
+    <p>
+      <%= f.label :title %><br>
+      <%= f.text_field :title %>
+    </p>
+
+    <p>
+      <%= f.label :msg %><br>
+      <%= f.text_field :msg %>
+    </p>
+
+    <p>
+      <%= f.label :bind %><br>
+      <%= f.number_field :bind %>
+    </p>
+
+    <p>
+      <%= f.submit %>
+    </p>
+<% end %>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Title</th>
+    <th>Bind</th>
+  </tr>
+  <% @all.each do |guide| %>
+      <tr>
+        <td><%= guide.id %></td>
+        <td><%= guide.title %></td>
+        <td><%= guide.bind %></td>
+      </tr>
+  <% end %>
+</table>

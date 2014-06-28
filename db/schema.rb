@@ -11,17 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140622200709) do
+ActiveRecord::Schema.define(version: 20140628070202) do
 
   create_table "biomes", force: true do |t|
     t.string   "title"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "temp"
   end
 
   create_table "characters", force: true do |t|
     t.string   "Name"
     t.integer  "Strength"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "guides", force: true do |t|
+    t.string   "title"
+    t.text     "msg"
+    t.integer  "bind"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,5 +1,5 @@
 class AddBiomeToWorlds < ActiveRecord::Migration
   def change
-    add_column :worlds, :biome, :biome
+    add_column :worlds, :biome, :string
   end
 end

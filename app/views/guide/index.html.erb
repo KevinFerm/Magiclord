@@ -1,2 +1,138 @@
-<h1>Guide#index</h1>
-<p>Find me in app/views/guide/index.html.erb</p>
+<script>
+$('.anchor-link').on('click',function (e) {
+    e.preventDefault();
+    var target = this.hash,
+            $target = $(target);
+    $('html, body').stop().animate({
+        'scrollTop': $target.offset().top
+    }, 900, 'swing', function () {
+        window.location.hash = target;
+    });
+});
+</script>
+<h1>Guide</h1>
+<table class="pure-table">
+  <tr>
+    <th>Index</th>
+  </tr>
+  <tr>
+    <td>
+      <%= @index.html_safe %>
+    </td>
+  </tr>
+</table>
+
+<%= @info.html_safe %>
+
+<h1>Guide</h1>
+<table class="pure-table">
+  <tr>
+    <th>About</th>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <li><a href="#player" class="anchor-link">Character</a></li>
+        <ul>
+          <li><a href="#">Creation</a></li>
+          <ul>
+            <li><a href="#">Stats</a></li>
+            <li><a href="#">Race</a></li>
+            <ul>
+              <li><a href="#">Human</a></li>
+              <li><a href="#">Halfling</a></li>
+              <li><a href="#">Elf</a></li>
+              <li><a href="#">Dwarf</a></li>
+              <li><a href="#">Dryad</a></li>
+              <li><a href="#">Troll</a></li>
+              <li><a href="#">Orge</a></li>
+            </ul>
+            <li><a href="#">Class</a></li>
+            <ul>
+              <li><a href="#">Warrior</a></li>
+              <li><a href="#">Priest</a></li>
+              <li><a href="#">Wizard</a></li>
+              <li><a href="#">Scholar</a></li>
+              <li><a href="#">Merchant</a></li>
+              <li><a href="#">Hunter</a></li>
+              <li><a href="#">Thief</a></li>
+              <li><a href="#">Assassin</a></li>
+              <li><a href="#">Tinkerer</a></li>
+            </ul>
+            <li><a href="#">Profession</a></li>
+            <ul>
+              <li><a href="#">Cook</a></li>
+              <li><a href="#">Fishing</a></li>
+              <li><a href="#">Enchant</a></li>
+              <li><a href="#">Alchemist</a></li>
+              <li><a href="#">Cloth Worker</a></li>
+              <li><a href="#">Leather Worker</a></li>
+              <li><a href="#">Wood Worker</a></li>
+              <li><a href="#">Metal Worker</a></li>
+              <li><a href="#">Jewel Worker</a></li>
+              <li><a href="#">Miner</a></li>
+              <li><a href="#">Herbalism</a></li>
+              <li><a href="#">Farming</a></li>
+              <li><a href="#">Fishing</a></li>
+            </ul>
+          </ul>
+          <li><a href="#">Movement</a></li>
+          <li><a href="#">Faction</a></li>
+          <li><a href="#">Family</a></li>
+          <li><a href="#">Inventory</a></li>
+          <li><a href="#">Pet</a></li>
+          <li><a href="#">Interaction</a></li>
+        </ul>
+        <li><a href="#">NPC</a></li>
+        <li><a href="#">Battle</a></li>
+        <li><a href="#">Steal</a></li>
+        <li><a href="#">Search</a></li>
+        <ul>
+          <li><a href="#">Hidden</a></li>
+          <li><a href="#">Herb</a></li>
+          <li><a href="#">Metal</a></li>
+          <li><a href="#">Wood</a></li>
+        </ul>
+        <li><a href="#">Achievement</a></li>
+        <li><a href="#">Goal</a></li>
+        <li><a href="#">Quest</a></li>
+        <li><a href="#">Lore</a></li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<h1 id="player">Character</h1>
+A character is a play able character that someone is playing as. When he dies the user has to start over on a new character with in its family.
+<h2>Stats</h2>
+<h2>Race</h2>
+<h2>Class</h2>
+<h2>Profession</h2>
+<h3>Cook</h3>
+<h3>Fishing</h3>
+<h3>Enchant</h3>
+<h3>Alchemist</h3>
+<h3>Cloth Worker</h3>
+<h3>Leather Worker</h3>
+<h3>Wood Worker</h3>
+<h3>Metal Worker</h3>
+<h3>Jewel Worker</h3>
+<h3>Miner</h3>
+<h3>Herbalism</h3>
+<h3>Farming</h3>
+<h3>Fishing</h3>
+<h2>Movement</h2>
+<h2>Faction</h2>
+<h2>Family</h2>
+<h2>Inventory</h2>
+<h2>Pet</h2>
+<h2>Interaction</h2>
+<h1 id="">NPC</h1>
+<h1 id="">Battle</h1>
+<h1 id="">Steal</h1>
+<h1 id="">Search</h1>
+<h1 id="">Achievement</h1>
+<h1 id="">Goal</h1>
+<h1 id="">Quest</h1>
+<h1 id="">Lore</h1>
+

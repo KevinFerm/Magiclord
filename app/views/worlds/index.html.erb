@@ -1,11 +1,12 @@
 <h1><%= @location.title %></h1>
 <p>Size: <%= @location.size %></p>
 <p>
-<table class="pure-table">
+<table class="pure-table pure-table-striped">
   <tr>
     <th>Location</th>
     <th>Biome</th>
     <th>Size</th>
+    <th>Compass</th>
   </tr>
 
   <% @paths.each do |path| %>
@@ -13,13 +14,27 @@
         <td><a href="worlds/<%= path.id %>"><%= path.title %></a></td>
         <td><%= path.biome %></td>
         <td><%= path.size %></td>
+        <%
+           this_cord = path.compass.split(", ")
+           curr_cord = @location.compass.split(", ")
+           if this_cord[0].to_i < curr_cord[0].to_i #X
+            compass = "West"
+           elsif this_cord[0].to_i > curr_cord[0].to_i #X
+             compass = "East"
+           elsif this_cord[1].to_i < curr_cord[1].to_i #Y
+             compass = "South"
+           elsif this_cord[1].to_i > curr_cord[1].to_i #Y
+             compass = "North"
+           end
+        %>
+        <td> <%= compass %> | <%= path.compass %></td>
       </tr>
   <% end %>
 </table>
 </p>
 <p>
 (Placeholder)
-<table class="pure-table">
+<table class="pure-table pure-table-striped">
   <tr>
     <th>NPC</th>
     <th>Action</th>
@@ -37,7 +52,7 @@
 (/Placeholder)
 </p><p>
 (Placeholder)
-<table class="pure-table">
+<table class="pure-table pure-table-striped">
   <tr>
     <th>Player</th>
     <th>Action</th>
@@ -53,4 +68,4 @@
 </table>
 (/Placeholder)
 </p>
-<p><a href="#">Claim</a> <a href="#">Search</a></p>
+<p><a href="#">Claim</a> <a href="#">Search</a></p><p><%= button_to "Generate new area", { :controller => "worlds", :action => "generate_new_area"} %></p>
