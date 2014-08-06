@@ -11,7 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140628070202) do
+ActiveRecord::Schema.define(version: 20140806180108) do
+
+  create_table "Npcs", force: true do |t|
+    t.string   "FirstName"
+    t.string   "LastName"
+    t.string   "Age"
+    t.string   "Profession"
+    t.string   "Race"
+    t.string   "Class"
+    t.string   "Equipment"
+    t.integer  "Strength"
+    t.integer  "Agility"
+    t.integer  "Intelligence"
+    t.integer  "Stamina"
+    t.integer  "Curr_Stamina"
+    t.integer  "Curr_Hp"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "biomes", force: true do |t|
     t.string   "title"
@@ -21,8 +39,19 @@ ActiveRecord::Schema.define(version: 20140628070202) do
   end
 
   create_table "characters", force: true do |t|
-    t.string   "Name"
+    t.string   "FirstName"
+    t.string   "LastName"
+    t.string   "Age"
+    t.string   "Profession"
+    t.string   "Race"
+    t.string   "Class"
+    t.string   "Equipment"
     t.integer  "Strength"
+    t.integer  "Agility"
+    t.integer  "Intelligence"
+    t.integer  "Stamina"
+    t.integer  "Curr_Stamina"
+    t.integer  "Curr_Hp"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -54,7 +83,16 @@ ActiveRecord::Schema.define(version: 20140628070202) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
-# Could not dump table "worlds" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
+  create_table "worlds", force: true do |t|
+    t.string   "title"
+    t.integer  "size"
+    t.string   "connect"
+    t.boolean  "hidden"
+    t.boolean  "lock"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "biome"
+    t.string   "compass"
+  end
 
 end
