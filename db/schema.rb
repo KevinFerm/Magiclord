@@ -13,24 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20140806180108) do
 
-  create_table "Npcs", force: true do |t|
-    t.string   "FirstName"
-    t.string   "LastName"
-    t.string   "Age"
-    t.string   "Profession"
-    t.string   "Race"
-    t.string   "Class"
-    t.string   "Equipment"
-    t.integer  "Strength"
-    t.integer  "Agility"
-    t.integer  "Intelligence"
-    t.integer  "Stamina"
-    t.integer  "Curr_Stamina"
-    t.integer  "Curr_Hp"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "biomes", force: true do |t|
     t.string   "title"
     t.datetime "created_at"
@@ -40,6 +22,36 @@ ActiveRecord::Schema.define(version: 20140806180108) do
 
   create_table "characters", force: true do |t|
     t.string   "FirstName"
+    t.string   "Age"
+    t.string   "Profession",   default: "0"
+    t.string   "Race"
+    t.string   "LastName"
+    t.string   "Class"
+    t.string   "Equipment",    default: "0"
+    t.string   "Status",       default: "1"
+    t.integer  "Strength",     default: 10
+    t.integer  "Agility",      default: 10
+    t.integer  "Intelligence", default: 10
+    t.integer  "Stamina",      default: 10
+    t.integer  "Curr_Stamina", default: 10
+    t.integer  "Curr_Hp",      default: 10
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "characters", ["user_id"], name: "index_characters_on_user_id"
+
+  create_table "guides", force: true do |t|
+    t.string   "title"
+    t.text     "msg"
+    t.integer  "bind"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "npcs", force: true do |t|
+    t.string   "FirstName"
     t.string   "LastName"
     t.string   "Age"
     t.string   "Profession"
@@ -56,12 +68,8 @@ ActiveRecord::Schema.define(version: 20140806180108) do
     t.datetime "updated_at"
   end
 
-  create_table "guides", force: true do |t|
-    t.string   "title"
-    t.text     "msg"
-    t.integer  "bind"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "races", force: true do |t|
+    t.string "race"
   end
 
   create_table "users", force: true do |t|
@@ -75,6 +83,7 @@ ActiveRecord::Schema.define(version: 20140806180108) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "FamilyName"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "admin",                  default: false

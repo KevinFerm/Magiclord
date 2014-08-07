@@ -1,7 +1,7 @@
 class CharactersController < ApplicationController
   def new
     if user_signed_in?
-      if Character.where(Status: 1,id: current_user.id).nil?
+      if User.character.where(Status: 1,user_id: current_user.id).nil?
         redirect_to home_index_path
       else
 
@@ -10,7 +10,7 @@ class CharactersController < ApplicationController
   end
 
   def create # Add Generation later
-    @char = Character.new(char_params)
+    @char = User.find(current_user.id).characters.new(char_params)
     if @char.save
       redirect_to home_index_path
     else
