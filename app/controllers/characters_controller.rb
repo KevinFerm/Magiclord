@@ -1,7 +1,8 @@
 class CharactersController < ApplicationController
   def new
     if user_signed_in?
-      if User.character.where(Status: 1,user_id: current_user.id).nil?
+      @user = User.find(current_user.id)
+      if @user.characters.where(Status: 1).nil?
         redirect_to home_index_path
       else
 
