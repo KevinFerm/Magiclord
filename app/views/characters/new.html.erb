@@ -1,5 +1,5 @@
 <%= form_for :character, url: characters_path do |f| %>
-
+    <%= @char.inspect %>
     <p>
       <%= f.label :FirstName %><br>
       <%= f.text_field :FirstName %>
