@@ -7,6 +7,12 @@
       <jdbc-url>jdbc:sqlite:C:\Sites\Magiclord\db\development.sqlite3</jdbc-url>
       <libraries />
     </data-source>
+    <data-source source="LOCAL" name="Rails Magiclord: test" uuid="d7da976e-3d37-4bdb-8552-c94fe78ec665">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Sites\Magiclord\db\test.sqlite3</jdbc-url>
+      <libraries />
+    </data-source>
   </component>
 </project>
 
