@@ -4,6 +4,8 @@ class WorldsController < ApplicationController
     if @location.connect != '' # If its not empty fetch them. Should always be one since we should be able to return
       @connects = @location.connect.split(', ')
       @paths = World.find(@connects)
+      @players = Character.where(location: session[:location], npc: false)
+      @npcs = Character.where(location: session[:location], npc: true)
     end
   end
 
@@ -63,6 +65,9 @@ class WorldsController < ApplicationController
       this_location.size = curr_location.size + (Random.rand(curr_location.size) - curr_location.size/2)
       this_location.connect = curr_location.id.to_s
       this_location.compass = cord[0].to_s+', '+cord[1].to_s
+
+      this_location.contain = generate_secret(this_location.size,this_location.biome)
+
 
       # Save everything!
       this_location.save
@@ -159,9 +164,65 @@ private
     end
     return [x.to_s,y.to_s]
   end
+
   def connect_world(x, y)
     x.connect += ", " + y.id.to_s
     y.connect += ", " + x.id.to_s
     x.save
     y.save
+  end
+
+  def cave_generation(bind, cord)
+    # Up down left right front back
+    cave = World.new
+    cave.biome = 'Cave'
+    cave.connect = bind.id.to_s
+    cave.size =
+    bind.connect += ', '+cave.id.to_s
+  end
+
+# Secrets is hidden items like caves, dungeons and materials like herbs or ores.
+  def generate_secret(size=1, biome='') # Need adjustments
+    contain = ''
+
+    if Random.rand(550/size) < 1
+      if contain == ''
+        contain = 'Dungeon[!]0'
+      else
+        contain += ', Dungeon[!]0'
+      end
+    end
+
+    cave_numb = 0
+    for i in 0..size%50
+      if Random.rand(200/size) < 1
+        if contain == ''
+          contain = 'Cave[!]0'
+          cave_numb += 1
+        else
+          contain += ', Cave[!]'+cave_numb
+          cave_numb += 1
+        end
+      end
+    end
+
+    materials = Material.all
+    materials.each do |m|
+      parma = m.param.split(', ')
+      if parma[0] == biome
+        if Random.rand(m.rate) == 0
+          for x in 0..m.rate
+            if Random.rand(m.rate%20) == 0
+              if contain == ''
+                contain = "#{m.type}[!]#{m.title}"
+              else
+                contain += ", #{m.type}[!]#{m.title}"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    return contain
   end

@@ -1,3 +1,26 @@
 <h1>Home</h1>
+<%= @username.inspect %>
 <p>Start page information.</p>
-<%= @username %>
+Email:
+<%= @username.email %>
+<br/>
+Family Name:
+<%= @uername %>
+<br/>
+Total characters:
+<%= @username.characters.count %>
+<br/>
+Acive Account Time:
+<% t = Time.at(@username.created_at - Time.now) %>
+Years: <%= -t.year + 1969 %>
+Month: <%= -t.month + 12 %>
+Day: <%= -t.day + 31 %>
+Hour: <%= -t.hour + 24 %>
+Min: <%= -t.min + 60 %>
+Sec: <%= -t.sec + 60 %>
+<br/>
+
+<% if @admin_claim %>
+No Admins exsist, do you wanna claim?
+<%= button_to 'Claim', :method=> claim_admin %>
+<% end %>

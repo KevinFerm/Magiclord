@@ -22,6 +22,10 @@
       <%= f.select :Race, options_for_select([["Human", "human"],["Halfling", "halfling"], ["Elf", "elf"], ["Dwarf", "dwarf"], ["Dryad", "dryad"], ["Troll", "troll"], ["Ogre", "ogre"]]) %>
     </p>
     <p>
+      <%= f.label :location %><br>
+      <%= f.select :location, options_for_select([["Center", 1], ["Family House", 1]]) %> <!-- Add loop for each town -->
+    </p>
+    <p>
       <%= f.submit %>
     </p>
 <% end %>

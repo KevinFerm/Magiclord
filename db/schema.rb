@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140806180108) do
+ActiveRecord::Schema.define(version: 20140702220220) do
 
   create_table "biomes", force: true do |t|
     t.string   "title"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20140806180108) do
     t.integer  "Stamina",      default: 10
     t.integer  "Curr_Stamina", default: 10
     t.integer  "Curr_Hp",      default: 10
+    t.integer  "location"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -50,26 +51,14 @@ ActiveRecord::Schema.define(version: 20140806180108) do
     t.datetime "updated_at"
   end
 
-  create_table "npcs", force: true do |t|
-    t.string   "FirstName"
-    t.string   "LastName"
-    t.string   "Age"
-    t.string   "Profession"
-    t.string   "Race"
-    t.string   "Class"
-    t.string   "Equipment"
-    t.integer  "Strength"
-    t.integer  "Agility"
-    t.integer  "Intelligence"
-    t.integer  "Stamina"
-    t.integer  "Curr_Stamina"
-    t.integer  "Curr_Hp"
+  create_table "materials", force: true do |t|
+    t.string   "name"
+    t.integer  "rate"
+    t.string   "type"
+    t.string   "info"
+    t.string   "param"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "races", force: true do |t|
-    t.string "race"
   end
 
   create_table "users", force: true do |t|
@@ -102,6 +91,7 @@ ActiveRecord::Schema.define(version: 20140806180108) do
     t.datetime "updated_at"
     t.string   "biome"
     t.string   "compass"
+    t.string   "contain"
   end
 
 end
