@@ -3,6 +3,7 @@ class CharactersController < ApplicationController
     if user_signed_in?
       @user = User.find(current_user.id)
       @char = @user.characters.where(Status: 1)
+      @random = Random.rand(World.all.count)
       if @char[0]
         redirect_to home_index_path
       end

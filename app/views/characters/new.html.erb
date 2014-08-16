@@ -23,7 +23,7 @@
     </p>
     <p>
       <%= f.label :location %><br>
-      <%= f.select :location, options_for_select([["Center", 1], ["Family House", 1]]) %> <!-- Add loop for each town -->
+      <%= f.select :location, options_for_select([["Center", 1], ["Random", @random], ["Family House", 1]]) %> <!-- Add loop for each town -->
     </p>
     <p>
       <%= f.submit %>

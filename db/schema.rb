@@ -11,13 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140702220220) do
+ActiveRecord::Schema.define(version: 20140813144349) do
 
   create_table "biomes", force: true do |t|
     t.string   "title"
+    t.integer  "temp"
+    t.boolean  "indoors",    default: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "temp"
+  end
+
+  create_table "caves", force: true do |t|
+    t.string   "name"
+    t.integer  "location"
+    t.integer  "size"
+    t.integer  "explored"
+    t.string   "typ"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "characters", force: true do |t|
@@ -43,6 +54,32 @@ ActiveRecord::Schema.define(version: 20140702220220) do
 
   add_index "characters", ["user_id"], name: "index_characters_on_user_id"
 
+  create_table "constructions", force: true do |t|
+    t.string   "name"
+    t.string   "type"
+    t.string   "owner"
+    t.string   "lock"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "dungeons", force: true do |t|
+    t.string   "name"
+    t.integer  "location"
+    t.integer  "size"
+    t.integer  "explored"
+    t.integer  "amount_puzzle_room"
+    t.boolean  "boss"
+    t.integer  "boss_id"
+    t.integer  "amount_loot_room"
+    t.string   "current_room"
+    t.string   "typ"
+    t.integer  "max_amount_monster"
+    t.integer  "max_amount_boss"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "guides", force: true do |t|
     t.string   "title"
     t.text     "msg"
@@ -51,10 +88,34 @@ ActiveRecord::Schema.define(version: 20140702220220) do
     t.datetime "updated_at"
   end
 
+  create_table "inventories", force: true do |t|
+    t.string   "name"
+    t.integer  "size"
+    t.integer  "max_weight"
+    t.integer  "item_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "items", force: true do |t|
+    t.string   "name"
+    t.integer  "size"
+    t.integer  "weight"
+    t.integer  "inventory_id"
+    t.string   "equip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "items", ["inventory_id"], name: "index_items_on_inventory_id"
+
   create_table "materials", force: true do |t|
     t.string   "name"
-    t.integer  "rate"
-    t.string   "type"
+    t.integer  "rarity"
+    t.string   "typ"
+    t.integer  "size"
+    t.integer  "quanity"
+    t.string   "biome"
     t.string   "info"
     t.string   "param"
     t.datetime "created_at"
@@ -81,17 +142,31 @@ ActiveRecord::Schema.define(version: 20140702220220) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
+  create_table "world_materials", force: true do |t|
+    t.string   "name"
+    t.string   "typ"
+    t.integer  "amount"
+    t.integer  "loot_chance"
+    t.integer  "find_chance"
+    t.integer  "location"
+    t.integer  "weight"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "worlds", force: true do |t|
     t.string   "title"
+    t.string   "biome"
     t.integer  "size"
     t.string   "connect"
+    t.string   "compass"
+    t.string   "contain"
+    t.string   "finder"
+    t.string   "owner"
     t.boolean  "hidden"
     t.boolean  "lock"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "biome"
-    t.string   "compass"
-    t.string   "contain"
   end
 
 end

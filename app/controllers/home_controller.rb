@@ -2,7 +2,14 @@ class HomeController < ApplicationController
   before_action :authenticate_user!
   def index
     @username = current_user
-    session[:location] = current_user.characters.where(Status: 1).first.location
+    @char = @username.characters.where(Status: 1).first
+    if !@char.nil?
+      @found = World.where(finder: @char.FirstName)
+    end
+    if @char
+      session[:location] = @char.location
+    end
+
 
     @admin = User.where("admin = 't'").first
     if @admin.nil?

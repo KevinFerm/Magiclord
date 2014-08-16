@@ -1,0 +1,26 @@
+<h1>Item#index</h1>
+<ul>
+<% @equipments.each do |equipment| %>
+    <% inventories = get_inventory(equipment.id) %>
+    <li>
+      <%= equipment.name %>
+      (Slots: <%= inventories.count %>)
+      <ul>
+        <% inventories.each do |inventory| %>
+            <li>
+              <%= inventory.name %>
+              (Max Weight: <%= inventory.max_weight %>)
+              <ul>
+              <% inventory.items.each do |item| %>
+                  <li>
+                  <%= item.name %>
+                    (Weight: <%= item.weight %>)
+                  </li>
+              <% end %>
+              </ul>
+            </li>
+        <% end %>
+      </ul>
+    </li>
+<% end %>
+</ul>

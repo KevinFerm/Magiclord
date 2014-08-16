@@ -9,13 +9,13 @@
 <body>
 <div class="pure-menu pure-menu-open pure-menu-horizontal">
   <ul>
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Guide</a></li>
+    <li><%= link_to 'Home', root_path %></li>
+    <li><%= link_to 'Guide', guide_index_path %></li>
     <% if user_signed_in? %>
         <% if have_character %>
-        <li><%= link_to 'Character', new_character_path %></li> <!-- Add so this go to character view -->
+        <li><%= link_to 'Character', new_character_path %></li>
         <li><%= link_to 'World', worlds_path %></li>
-        <li><a href="#">Inventory</a></li>
+        <li><%= link_to 'Inventory', item_index_path %></li>
         <li><a href="#">Quest</a></li>
         <% else %>
         <li><%= link_to 'Character', new_character_path %></li>

@@ -7,19 +7,24 @@ Email:
 Family Name:
 <%= @uername %>
 <br/>
+First Name:
+<%= @char.FirstName %>
+<br/>
 Total characters:
 <%= @username.characters.count %>
 <br/>
 Acive Account Time:
-<% t = Time.at(@username.created_at - Time.now) %>
-Years: <%= -t.year + 1969 %>
-Month: <%= -t.month + 12 %>
-Day: <%= -t.day + 31 %>
-Hour: <%= -t.hour + 24 %>
-Min: <%= -t.min + 60 %>
-Sec: <%= -t.sec + 60 %>
+<% t = Time.at(Time.now - @username.created_at) %>
+Years: <%= t.year - 1970 %>
+Month: <%= t.month - 1 %>
+Day: <%= t.day - 1 %>
+Hour: <%= t.hour - 1 %>
+Min: <%= t.min %>
+Sec: <%= t.sec %>
 <br/>
-
+<% if !@found.nil? %>
+Found <%= @found.count %> pieces of land
+<% end %>
 <% if @admin_claim %>
 No Admins exsist, do you wanna claim?
 <%= button_to 'Claim', :method=> claim_admin %>

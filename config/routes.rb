@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'item/index'
+
   devise_for :users, :controllers => { registrations: 'registrations_' }
   get 'home/index'
   # The priority is based upon order of creation: first created -> highest priority.
@@ -8,9 +10,14 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'home#index'
   post 'worlds/generate_new_area' => "worlds#generate_new_area"
+  post 'worlds/claim_area' => "worlds#claim_area"
   resources :characters
   resources :worlds
   resources :guide
+  resources :item
+  resources :inventory do
+    resources :items
+  end
 
   devise_scope :user do
     get "login", to: "devise/sessions#new"
