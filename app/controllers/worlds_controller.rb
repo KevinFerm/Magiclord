@@ -4,17 +4,40 @@ class WorldsController < ApplicationController
     if @location.connect != '' # If its not empty fetch them. Should always be one since we should be able to return
       @connects = @location.connect.split(', ')
       @paths = World.find(@connects)
+      @my_player = current_user.characters.where(Status: 1).first
+      @players = Character.where(location: @location.id)
+
+      @objects = WorldMaterials.where(location: @location.id,explored:1)
+      @caves = Caves.where(location: @location.id, explored:1)
+      @dungeons = Dungeons.where(location: @location.id, explored:1)
+      if @paths.count < 4
+        for i in 0..5
+          generate_new_area
+        end
+        redirect_to worlds_path
+      end
     end
   end
 
   def show #Show whats in map should contain security to check if they can go there
     @location = get_location
+    biome = Biome.where(title: get_location.biome).first
     @connects = @location.connect.split(', ')
     @connects.each do |connect|
       if connect == params[:id] # Need to add hidden and lock check and add update user poss
-        session[:location] = params[:id]
-        redirect_to worlds_path
-        return
+        if Random.rand(100) < biome.lost_chance
+          all = @connects
+          session[:location] = all[Random.rand(all.count)]
+          redirect_to worlds_path
+          return
+        else
+          session[:location] = params[:id]
+          user = current_user.characters.where(Status: 1).first
+          user.location = params[:id]
+          user.save
+          redirect_to worlds_path
+          return
+        end
       end
     end
     redirect_to worlds_path
@@ -64,12 +87,67 @@ class WorldsController < ApplicationController
       this_location.connect = curr_location.id.to_s
       this_location.compass = cord[0].to_s+', '+cord[1].to_s
 
+
+      this_location.finder = current_user.characters.where(Status: 1).first.FirstName
+
       # Save everything!
       this_location.save
       curr_location.connect += ', ' + this_location.id.to_s
       curr_location.save
+      generate_secret(this_location)
     end
+  end
 
+  def claim_area
+    curr_location = World.find(session[:location])
+    curr_location.owner = current_user.characters.where(Status: 1).first.FirstName
+    curr_location.save
+    redirect_to worlds_path
+  end
+
+  def search_location
+    caves = Caves.where(location: session[:location], explored:0)
+    dungeons = Dungeons.where(location: session[:location], explored:0)
+    materials = WorldMaterials.where(location: session[:location],explored:0)
+    constructions = nil
+    all = [materials,caves,dungeons,constructions,nil]
+    hidden = all[Random.rand(all.count)]
+    if !hidden.nil? && hidden.count != 0
+      obj = hidden[Random.rand(hidden.count)]
+      if defined?(obj.find_chance)
+        if Random.rand(obj.find_chance) == 0
+          obj.explored = 1
+        end
+      else
+        obj.explored = 1
+      end
+      obj.save
+    end
+    redirect_to worlds_path
+  end
+
+  def collect_world_item
+    id = params[:id]
+    obj = WorldMaterials.find(id)
+    if Random.rand(obj.loot_chance) == 0
+      obj.amount -= 1
+      #Find inventory space here
+      Item.where(equip: current_user.characters.where(Status: 1).first.FirstName).each do |item|
+        Inventory.where(item_id: item.id).each do |inv|
+          curr_weight = 0
+          inv.items.each do |i|
+            curr_weight += i.weight
+          end
+          if curr_weight+obj.weight < inv.max_weight && inv.items.count + 1 < inv.size
+            inv.items.create(name: obj.name, size: 1, weight: obj.weight)
+            obj.save
+            if obj.amount == 0
+              obj.destroy
+            end
+          end
+        end
+      end
+    end
     redirect_to worlds_path
   end
 end
@@ -159,9 +237,83 @@ private
     end
     return [x.to_s,y.to_s]
   end
+
   def connect_world(x, y)
     x.connect += ", " + y.id.to_s
     y.connect += ", " + x.id.to_s
     x.save
     y.save
+  end
+
+# Secrets is hidden items like caves, dungeons and materials like herbs or ores.
+  def generate_secret(size=1, location) # Need adjustments
+    materials = Material.all
+# Dungeons has a 50% of having 0 to size/4 puzzle rooms
+# Dungeons has 0 to size/4 loot rooms
+# Dungeons has 25% to contain bosses
+# Dungeons rooms has 5% to contain a boss
+# Dungeons rooms has 50% to contain 0 to max_amount_monster
+
+    if Random.rand(10000) < 1
+      dungeon = Dungeons.new
+      dungeon.name = 'Dungeon Name Generator'
+      dungeon.location = location.id
+      dungeon.size = Random.rand(location.size/4)
+      dungeon.explored = 0
+      if Random.rand(1) == 0
+        dungeon.amount_puzzle_room = Random.rand(dungeon.size/4)
+      else
+        dungeon.amount_puzzle_room = 0
+      end
+      dungeon.amount_loot_room = Random.rand(dungeon.size/4)
+      dungeon.current_room = 'Entrance'
+      dungeon.typ = 'Dungeon'
+      dungeon.max_amount_monster = Random.rand(dungeon.size/8)
+      if Random.rand(4) == 0
+        dungeon.max_amount_boss = Random.rand(dungeon.size/16)
+        dungeon.boss = false
+      end
+    end
+
+    for i in 0..(location.size/150).to_i
+      if Random.rand(200/location.size+1) < 1
+        cave = Caves.new
+        cave.name = 'Cave Entrance'
+        cave.location = location.id
+        cave.size = Random.rand(location.size/8) + 1
+        cave.explored = 0
+        cave.typ = ''
+        materials.each do |m|
+          if m.biome.include? location.biome
+            if Random.rand(1) == 0
+              if Random.rand(m.rarity) == 0
+                cave.typ = m.name
+              end
+            end
+          end
+        end
+
+        cave.save
+      end
+    end
+
+    materials.each do |m|
+      if m.biome.include? location.biome
+        if Random.rand(m.rarity) == 0
+          quanity = (m.quanity/2).to_i
+          for x in 0..Random.rand(quanity)+quanity
+            material = WorldMaterials.new
+            material.name = m.name
+            material.typ = m.typ
+            material.amount = Random.rand(quanity) + quanity
+            material.loot_chance = Random.rand(m.rarity)+(m.rarity/4)
+            material.find_chance = Random.rand(m.rarity)+(m.rarity/4)
+            material.location = location.id
+            material.weight = Random.rand(m.size/2) + (m.size/2)
+            material.explored = 0
+            material.save
+          end
+        end
+      end
+    end
   end

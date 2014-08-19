@@ -8,6 +8,7 @@ class CreateWorldMaterials < ActiveRecord::Migration
       t.integer :find_chance
       t.integer :location
       t.integer :weight
+      t.integer :explored
       t.timestamps
     end
   end

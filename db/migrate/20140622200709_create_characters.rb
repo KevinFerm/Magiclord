@@ -8,7 +8,7 @@ class CreateCharacters < ActiveRecord::Migration
       t.string :LastName
       t.string :Class
       t.string :Equipment, :default => 0
-      t.string :Status, :default => 1
+      t.integer :Status, :default => 1
       t.integer :Strength, :default => 10
       t.integer :Agility, :default => 10
       t.integer :Intelligence, :default => 10

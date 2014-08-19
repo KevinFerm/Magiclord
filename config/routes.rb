@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   root 'home#index'
   post 'worlds/generate_new_area' => "worlds#generate_new_area"
   post 'worlds/claim_area' => "worlds#claim_area"
+  post 'worlds/search_location' => "worlds#search_location"
+  post 'worlds/collect_world_item' => "worlds#collect_world_item"
   resources :characters
   resources :worlds
   resources :guide

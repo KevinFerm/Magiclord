@@ -12,7 +12,7 @@
         <a href="#">Take over</a>
       <% end %>
 <% end %>
-  <%= button_to 'Search', { :controller => 'worlds', :action => 'claim_area'} %>
+  <%= button_to 'Search', { :controller => 'worlds', :action => 'search_location'} %>
 </p>
 <p>
 <table class="pure-table pure-table-striped">
@@ -47,16 +47,8 @@
   <% @caves.each do |cave| %>
       <tr>
         <td><a href=<%= cave.id %>><%= cave.name %></a></td>
-        <% if cave.explored == 0 %>
-            <td>?</td>
-            <td>?</td>
-        <% elsif cave.explored == cave.size %>
             <td><%= cave.typ %></td>
-            <td><%= cave.explored.to_s + '/' + cave.size.to_s %></td>
-        <% else %>
-            <td><%= cave.explored.to_s + '/' %>?</td>
-            <td><%= cave.typ %></td>
-        <% end %>
+            <td><%= cave.size %></td>
         <td>Down</td>
       </tr>
   <% end  %>
@@ -92,15 +84,15 @@
     <th>Action</th>
   </tr>
   <% @players.each do |player| %>
-      <% if player.id != @my_player.id and player.status == 1 %>
+      <% if player.id != @my_player.id && player.Status == 1 %>
           <tr>
             <td><a href="worlds/<%= player.id %>"><%= player.FirstName %></a></td>
             <td><a href="worlds/<%= player.id %>">Talk</a> |
               <a href="worlds/<%= player.id %>">Attack</a> |
               <a href="worlds/<%= player.id %>">Steal</a></td>
           </tr>
-      <% end %>
-  <% end %>
+<% end %>
+<% end %>
 </table>
 <br/>
 <table class="pure-table pure-table-striped">
@@ -109,7 +101,7 @@
     <th>Action</th>
   </tr>
   <% @players.each do |player| %>
-      <% if player.id != @my_player.id and player.status == 0 %>
+      <% if player.id != @my_player.id && player.Status == 0 %>
           <tr>
             <td><a href="worlds/<%= player.id %>"><%= player.FirstName %></a></td>
             <td> <a href="worlds/<%= player.id %>">Loot</a></td>
@@ -128,7 +120,7 @@
       <tr>
         <td><a href="worlds/<%= object.id %>"><%= object.name %></a></td>
         <% if object.typ == 'Metal' %>
-            <td> <a href="worlds/<%= object.id %>">Mine</a></td>
+            <td> <%= button_to 'Mine', { :controller => 'worlds', :action => 'collect_world_item', :id => object.id} %></td>
         <% end %>
       </tr>
   <% end %>

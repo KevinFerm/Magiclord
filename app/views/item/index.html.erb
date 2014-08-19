@@ -1,26 +1,30 @@
 <h1>Item#index</h1>
-<ul>
-<% @equipments.each do |equipment| %>
-    <% inventories = get_inventory(equipment.id) %>
-    <li>
-      <%= equipment.name %>
-      (Slots: <%= inventories.count %>)
-      <ul>
-        <% inventories.each do |inventory| %>
-            <li>
-              <%= inventory.name %>
-              (Max Weight: <%= inventory.max_weight %>)
-              <ul>
-              <% inventory.items.each do |item| %>
-                  <li>
-                  <%= item.name %>
-                    (Weight: <%= item.weight %>)
-                  </li>
-              <% end %>
-              </ul>
-            </li>
-        <% end %>
-      </ul>
-    </li>
+<%= fields_for "item" do |form| %>
+    <ul>
+    <% @equipments.each do |equipment| %>
+        <% inventories = get_inventory(equipment.id) %>
+        <li>
+          <%= equipment.name %>
+          (Slots: <%= inventories.count %>)
+          <ul>
+            <% inventories.each do |inventory| %>
+                <li>
+                  <%= inventory.name %>
+                  (Max Weight: <%= inventory.max_weight %>)
+                  <ul>
+                  <% inventory.items.each do |item| %>
+                      <li>
+                      <%= item.name %>
+                        (Weight: <%= item.weight %>)
+                        <%= form.check_box :selected %>
+                      </li>
+                  <% end %>
+                  </ul>
+                </li>
+            <% end %>
+          </ul>
+        </li>
+    <% end %>
+    </ul>
+    <%= form.select :action, options_for_select([["Move", "move"],["Drop", "drop"], ["Delete", "delete"]]) %>
 <% end %>
-</ul>
