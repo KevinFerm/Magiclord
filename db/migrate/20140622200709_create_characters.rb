@@ -15,7 +15,7 @@ class CreateCharacters < ActiveRecord::Migration
       t.integer :Stamina, :default => 10
       t.integer :Curr_Stamina, :default => 10
       t.integer :Curr_Hp, :default => 10
-
+      t.integer :location
       t.references :user, index: true
 
       t.timestamps

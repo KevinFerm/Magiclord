@@ -1,5 +1,19 @@
 <h1><%= @location.title %></h1>
-<p>Size: <%= @location.size %></p>
+<p>Size: <%= @location.size %>Kvm</p>
+<p>
+<% if @location.owner.nil? %>
+  <%= button_to 'Claim', { :controller => 'worlds', :action => 'claim_area'} %>
+<% else %>
+      Onwer: <%= @location.owner %>
+      <br/>
+      <% if @location.owner == @my_player.FirstName %>
+        <a href="#">Build</a> | <a href="#">Settings</a> | <a href="#">Unclaim</a>
+      <% else %>
+        <a href="#">Take over</a>
+      <% end %>
+<% end %>
+  <%= button_to 'Search', { :controller => 'worlds', :action => 'claim_area'} %>
+</p>
 <p>
 <table class="pure-table pure-table-striped">
   <tr>
@@ -30,10 +44,32 @@
         <td> <%= compass %> | <%= path.compass %></td>
       </tr>
   <% end %>
+  <% @caves.each do |cave| %>
+      <tr>
+        <td><a href=<%= cave.id %>><%= cave.name %></a></td>
+        <% if cave.explored == 0 %>
+            <td>?</td>
+            <td>?</td>
+        <% elsif cave.explored == cave.size %>
+            <td><%= cave.typ %></td>
+            <td><%= cave.explored.to_s + '/' + cave.size.to_s %></td>
+        <% else %>
+            <td><%= cave.explored.to_s + '/' %>?</td>
+            <td><%= cave.typ %></td>
+        <% end %>
+        <td>Down</td>
+      </tr>
+  <% end  %>
+  <% @dungeons.each do |dungeon| %>
+    <tr>
+      <td><a href=<%= dungeon.id %>><%= dungeon.name %></a></td>
+      <td><%= dungeon.typ %></td>
+      <td><%= dungeon.explored.to_s + '/' + dungeon.size.to_s %></td>
+      <td>Down</td>
+    </tr>
+  <% end  %>
 </table>
-</p>
-<p>
-(Placeholder)
+<br/>
 <table class="pure-table pure-table-striped">
   <tr>
     <th>NPC</th>
@@ -49,23 +85,52 @@
       </tr>
   <% end %>
 </table>
-(/Placeholder)
-</p><p>
-(Placeholder)
+<br/>
 <table class="pure-table pure-table-striped">
   <tr>
     <th>Player</th>
     <th>Action</th>
   </tr>
-  <% @paths.each do |path| %>
-      <tr>
-        <td><a href="worlds/<%= path.id %>"><%= path.title %></a></td>
-        <td><a href="worlds/<%= path.id %>">Talk</a> |
-          <a href="worlds/<%= path.id %>">Attack</a> |
-          <a href="worlds/<%= path.id %>">Steal</a></td>
-      </tr>
+  <% @players.each do |player| %>
+      <% if player.id != @my_player.id and player.status == 1 %>
+          <tr>
+            <td><a href="worlds/<%= player.id %>"><%= player.FirstName %></a></td>
+            <td><a href="worlds/<%= player.id %>">Talk</a> |
+              <a href="worlds/<%= player.id %>">Attack</a> |
+              <a href="worlds/<%= player.id %>">Steal</a></td>
+          </tr>
+      <% end %>
   <% end %>
 </table>
-(/Placeholder)
-</p>
-<p><a href="#">Claim</a> <a href="#">Search</a></p><p><%= button_to "Generate new area", { :controller => "worlds", :action => "generate_new_area"} %></p>
+<br/>
+<table class="pure-table pure-table-striped">
+  <tr>
+    <th>Entity</th>
+    <th>Action</th>
+  </tr>
+  <% @players.each do |player| %>
+      <% if player.id != @my_player.id and player.status == 0 %>
+          <tr>
+            <td><a href="worlds/<%= player.id %>"><%= player.FirstName %></a></td>
+            <td> <a href="worlds/<%= player.id %>">Loot</a></td>
+          </tr>
+      <% end %>
+  <% end %>
+
+</table>
+<br/>
+<table class="pure-table pure-table-striped">
+  <tr>
+    <th>Object</th>
+    <th>Action</th>
+  </tr>
+  <% @objects.each do |object| %>
+      <tr>
+        <td><a href="worlds/<%= object.id %>"><%= object.name %></a></td>
+        <% if object.typ == 'Metal' %>
+            <td> <a href="worlds/<%= object.id %>">Mine</a></td>
+        <% end %>
+      </tr>
+  <% end %>
+
+</table>
