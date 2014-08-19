@@ -3,6 +3,7 @@ class Races < ActiveRecord::Migration
     create_table :races do |t|
       t.string :race
       t.string :desc
+      t.string :a
     end
   end
 end
