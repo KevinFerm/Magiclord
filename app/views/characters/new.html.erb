@@ -22,7 +22,18 @@
       <%= f.select :Race, options_for_select([["Human", "human"],["Halfling", "halfling"], ["Elf", "elf"], ["Dwarf", "dwarf"], ["Dryad", "dryad"], ["Troll", "troll"], ["Ogre", "ogre"]]) %>
     </p>
     <p>
-      <%= f.submit %>
+      <%= f.label :Primary_Profession %><br>
+      <%= f.select :Primary_Profession, options_for_select([["Cooking", "cooking"],["Fishing", "fishing"], ["Enchant", "enchant"], ["Alchemist", "alchemist"], ["Cloth Worker", "cloth_worker"], ["Leather Worker", "leather_worker"], ["Wood Worker", "wood_worker"], ["Metal Worker", "metal_worker"], ["Jewel Worker", "jewel_worker"], ["Miner", "miner"], ["Herbalism", "herbalism"], ["Farming", "farming"], ["Scribbler", "scribbler"]]) %>
+    </p>
+    <p id="secondary_Profession">
+
+    </p>
+    <p>
+      <%= f.label :Start_Area %><br>
+      <%= f.select :Start_Area, options_for_select([["World Center", "0,0"], ["West", "-100,0"], ["East", "100,0"], ["North", "0,100"], ["South", "0,-100"], ["Random", "558,-210"]]) %>
+    </p>
+    <p>
+      <%= f.submit "Generate New Character" %>
     </p>
 <% end %>
 </table>

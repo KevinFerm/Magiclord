@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140813144349) do
+ActiveRecord::Schema.define(version: 20140830123517) do
 
   create_table "biomes", force: true do |t|
     t.string   "title"
@@ -103,12 +103,43 @@ ActiveRecord::Schema.define(version: 20140813144349) do
     t.integer  "size"
     t.integer  "weight"
     t.integer  "inventory_id"
+    t.integer  "character_id"
+    t.string   "material"
     t.string   "equip"
+    t.boolean  "blueprint"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "items", ["character_id"], name: "index_items_on_character_id"
   add_index "items", ["inventory_id"], name: "index_items_on_inventory_id"
+
+  create_table "keys", force: true do |t|
+    t.integer  "splint1"
+    t.integer  "splint2"
+    t.integer  "splint3"
+    t.integer  "splint4"
+    t.integer  "splint5"
+    t.integer  "splint6"
+    t.integer  "quality"
+    t.integer  "item_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "keys", ["item_id"], name: "index_keys_on_item_id"
+
+  create_table "locks", force: true do |t|
+    t.integer  "splint1"
+    t.integer  "splint2"
+    t.integer  "splint3"
+    t.integer  "splint4"
+    t.integer  "splint5"
+    t.integer  "splint6"
+    t.integer  "quality"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "materials", force: true do |t|
     t.string   "name"
@@ -122,6 +153,46 @@ ActiveRecord::Schema.define(version: 20140813144349) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "npcs", force: true do |t|
+    t.string   "FirstName"
+    t.string   "LastName"
+    t.string   "Age"
+    t.string   "Profession"
+    t.string   "Race"
+    t.string   "Class"
+    t.string   "Equipment"
+    t.integer  "Strength"
+    t.integer  "Agility"
+    t.integer  "Intelligence"
+    t.integer  "Stamina"
+    t.integer  "Curr_Stamina"
+    t.integer  "Curr_Hp"
+    t.integer  "location"
+    t.boolean  "animal"
+    t.boolean  "mount"
+    t.string   "tamer"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "races", force: true do |t|
+    t.string "race"
+    t.string "desc"
+    t.string "a"
+  end
+
+  create_table "trades", force: true do |t|
+    t.integer  "npc_id"
+    t.integer  "sell"
+    t.integer  "sell_quantity"
+    t.integer  "buy"
+    t.integer  "buy_quantity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "trades", ["npc_id"], name: "index_trades_on_npc_id"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "",    null: false
@@ -160,13 +231,16 @@ ActiveRecord::Schema.define(version: 20140813144349) do
     t.string   "title"
     t.string   "biome"
     t.integer  "size"
+    t.integer  "size_fix"
     t.string   "connect"
     t.string   "compass"
-    t.string   "contain"
     t.string   "finder"
     t.string   "owner"
     t.boolean  "hidden"
     t.boolean  "lock"
+    t.boolean  "allow_pvp"
+    t.boolean  "allow_gathering"
+    t.boolean  "allow_hunting"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

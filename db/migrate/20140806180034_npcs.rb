@@ -14,7 +14,10 @@ class Npcs < ActiveRecord::Migration
       t.integer :Stamina
       t.integer :Curr_Stamina
       t.integer :Curr_Hp
-
+      t.integer :location
+      t.boolean :animal
+      t.boolean :mount
+      t.string :tamer
       t.timestamps
     end
   end

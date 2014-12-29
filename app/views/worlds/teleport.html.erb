@@ -1,0 +1,16 @@
+<%= form_for :get_teleport, url: "/worlds/get_teleport" do |f| %>
+    <p>
+      <p>Player, blank to tp you</p>
+      <%= f.label :name %><br>
+      <%= f.text_field :name %>
+    </p>
+
+    <p>
+      <p>World id</p>
+      <%= f.label :id %><br>
+      <%= f.number_field :id %>
+    </p>
+    <p>
+      <%= f.submit %>
+    </p>
+<% end %>

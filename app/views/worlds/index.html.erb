@@ -20,7 +20,9 @@
     <th>Location</th>
     <th>Biome</th>
     <th>Size</th>
-    <th>Compass</th>
+    <% if has_item("Compass") %>
+        <th>Compass</th>
+    <% end %>
   </tr>
 
   <% @paths.each do |path| %>
@@ -28,28 +30,24 @@
         <td><a href="worlds/<%= path.id %>"><%= path.title %></a></td>
         <td><%= path.biome %></td>
         <td><%= path.size %></td>
-        <%
-           this_cord = path.compass.split(", ")
-           curr_cord = @location.compass.split(", ")
-           if this_cord[0].to_i < curr_cord[0].to_i #X
-            compass = "West"
-           elsif this_cord[0].to_i > curr_cord[0].to_i #X
-             compass = "East"
-           elsif this_cord[1].to_i < curr_cord[1].to_i #Y
-             compass = "South"
-           elsif this_cord[1].to_i > curr_cord[1].to_i #Y
-             compass = "North"
-           end
-        %>
-        <td> <%= compass %> | <%= path.compass %></td>
+        <% if has_item("Compass") %>
+            <td> <%= compass(@location,path) %> | <%= path.compass %></td>
+        <% end %>
       </tr>
   <% end %>
+  </table>
+<br/>
+    <table class="pure-table pure-table-striped">
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Size</th>
+      </tr>
   <% @caves.each do |cave| %>
       <tr>
         <td><a href=<%= cave.id %>><%= cave.name %></a></td>
             <td><%= cave.typ %></td>
             <td><%= cave.size %></td>
-        <td>Down</td>
       </tr>
   <% end  %>
   <% @dungeons.each do |dungeon| %>
@@ -57,7 +55,6 @@
       <td><a href=<%= dungeon.id %>><%= dungeon.name %></a></td>
       <td><%= dungeon.typ %></td>
       <td><%= dungeon.explored.to_s + '/' + dungeon.size.to_s %></td>
-      <td>Down</td>
     </tr>
   <% end  %>
 </table>
@@ -67,13 +64,13 @@
     <th>NPC</th>
     <th>Action</th>
   </tr>
-  <% @paths.each do |path| %>
+  <% @npcs.each do |npc| %>
       <tr>
-        <td><a href="worlds/<%= path.id %>"><%= path.title %></a></td>
-        <td><a href="worlds/<%= path.id %>">Talk</a> |
-          <a href="worlds/<%= path.id %>">Attack</a> |
-          <a href="worlds/<%= path.id %>">Analyze</a> |
-          <a href="worlds/<%= path.id %>">Steal</a></td>
+        <td><a href="npc/<%= npc.id %>"><%= npc.Race %></a></td>
+        <td><a href="npc/<%= npc.id %>">Talk</a> |
+          <a href="npc/<%= npc.id %>">Attack</a> |
+          <a href="npc/<%= npc.id %>">Analyze</a> |
+          <a href="npc/<%= npc.id %>">Steal</a></td>
       </tr>
   <% end %>
 </table>
@@ -86,10 +83,10 @@
   <% @players.each do |player| %>
       <% if player.id != @my_player.id && player.Status == 1 %>
           <tr>
-            <td><a href="worlds/<%= player.id %>"><%= player.FirstName %></a></td>
-            <td><a href="worlds/<%= player.id %>">Talk</a> |
-              <a href="worlds/<%= player.id %>">Attack</a> |
-              <a href="worlds/<%= player.id %>">Steal</a></td>
+            <td><a href="character/<%= player.id %>"><%= player.FirstName %></a></td>
+            <td><a href="character/<%= player.id %>">Talk</a> |
+              <a href="character/<%= player.id %>">Attack</a> |
+              <a href="character/<%= player.id %>">Steal</a></td>
           </tr>
 <% end %>
 <% end %>
@@ -119,8 +116,14 @@
   <% @objects.each do |object| %>
       <tr>
         <td><a href="worlds/<%= object.id %>"><%= object.name %></a></td>
-        <% if object.typ == 'Metal' %>
+        <% if object.typ == 'Metal' && has_item('Pickaxe') %>
             <td> <%= button_to 'Mine', { :controller => 'worlds', :action => 'collect_world_item', :id => object.id} %></td>
+        <% elsif object.typ == 'Herb' && has_item('Sickle') %>
+            <td> <%= button_to 'Cut', { :controller => 'worlds', :action => 'collect_world_item', :id => object.id} %></td>
+        <% elsif object.typ == 'Tree' && has_item('Axe') %>
+            <td> <%= button_to 'Chop', { :controller => 'worlds', :action => 'collect_world_item', :id => object.id} %></td>
+        <% else %>
+        <td>Need tool</td>
         <% end %>
       </tr>
   <% end %>

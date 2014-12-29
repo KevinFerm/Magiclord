@@ -1,0 +1,34 @@
+<%= form_for :npc, url: "/npc" do |f| %>
+    <p>
+      <%= f.label :FirstName %><br>
+      <%= f.text_field :FirstName %>
+    </p>
+
+    <p>
+      <%= f.label :LastName %><br>
+      <%= f.text_field :LastName %>
+    </p>
+
+    <p>
+      <%= f.label :Age %><br>
+      <%= f.number_field :Age %>
+    </p>
+
+    <p>
+      <%= f.label :Class %><br>
+      <%= f.select :Class, options_for_select([["None", "none"],["Warrior", "warrior"],["Priest", "priest"], ["Wizard", "wizard"], ["Scholar", "Scholar"], ["Merchant", "merchant"], ["Hunter", "hunter"], ["Thief", "thief"], ["Assassin", "assassin"], ["Tinkerer", "tinkerer"]]) %>
+    </p>
+    <p>
+      <%= f.label :Race %><br>
+      <%= f.select :Race, options_for_select([["Animal", "animal"],["Human", "human"],["Halfling", "halfling"], ["Elf", "elf"], ["Dwarf", "dwarf"], ["Dryad", "dryad"], ["Troll", "troll"], ["Ogre", "ogre"]]) %>
+    </p>
+
+    <p>
+      <%= f.label :Mount %>
+      <%= check_box_tag(:Mount) %>
+    </p>
+
+    <p>
+      <%= f.submit %>
+    </p>
+<% end %>

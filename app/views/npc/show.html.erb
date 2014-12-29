@@ -1,0 +1,39 @@
+<%= @npc.inspect %>
+<br/>
+<br/>
+Name:<%= @npc.FirstName %>
+<%= @npc.LastName %>
+<br/>
+Age:<%= @npc.Age %>
+<br/>
+Profession:<%= @npc.Profession %>
+<br/>
+Race:<%= @npc.Race %>
+<br/>
+Class:<%= @npc.Class %>
+<br/>
+Equipment:<%= @npc.Equipment %>
+<br/>
+Strenght:<%= @npc.Strength %>
+<br/>
+Agility:<%= @npc.Agility %>
+<br/>
+Intelligence:<%= @npc.Intelligence %>
+<br/>
+Stamina:<%= @npc.Stamina %>
+<br/>
+Hp:<%= @npc.Curr_Hp.to_s.to_s+"/"+max_health(@npc).to_s %>
+<br/>
+<% if @npc.animal %>
+    This is an animal
+<% else %>
+    This is an humanoid
+<% end %>
+<% if @npc.mount && (@npc.tamer.nil? || @npc.tamer == "") %>
+    <br/>
+    Can be tamed
+<% end %>
+<% unless @npc.tamer.nil? || @npc.tamer == "" %>
+    <br/>
+    Tamer:<%= @npc.tamer %>
+<% end %>

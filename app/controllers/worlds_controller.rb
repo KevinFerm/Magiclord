@@ -6,7 +6,7 @@ class WorldsController < ApplicationController
       @paths = World.find(@connects)
       @my_player = current_user.characters.where(Status: 1).first
       @players = Character.where(location: @location.id)
-
+      @npcs = Npc.where(location: @location.id)
       @objects = WorldMaterials.where(location: @location.id,explored:1)
       @caves = Caves.where(location: @location.id, explored:1)
       @dungeons = Dungeons.where(location: @location.id, explored:1)
@@ -63,6 +63,11 @@ class WorldsController < ApplicationController
     end
   end
 
+
+  def get_teleport
+        session[:location] = @post.id
+  end
+
   def generate_new_area
     curr_location = World.find(session[:location])
     # Set direction and check if we return the same and if we do there cant be one generated and skip everything since
@@ -71,9 +76,9 @@ class WorldsController < ApplicationController
     curr_compass = curr_location.compass.split(', ')
     if cord != curr_compass
       this_location = World.new
-      if Random.rand(curr_location.size) <= 20
-        curr_temp = Biome.where(title: curr_location.biome).first
-        this_temp = curr_temp.temp + (Random.rand(10) - 5)
+      if Random.rand(curr_location.size) <= 150
+        curr_temp = Biome.where(title: curr_location.biome).first.temp
+        this_temp = curr_temp + (Random.rand(10) - 5)
         this_biome = Biome.order("abs('temp' - #{this_temp})").first # Pick the biome closes to the temperature
         this_location.title = this_biome.title
         this_location.biome = this_biome.title
@@ -83,10 +88,18 @@ class WorldsController < ApplicationController
         #Add connections
       end
 
-      this_location.size = curr_location.size + (Random.rand(curr_location.size) - curr_location.size/2)
+      # Size Generations
+      if curr_location.size_fix < 5 and curr_location.size_fix > 1
+        this_location.size_fix = Random.rand((curr_location.size_fix-1)..(curr_location.size_fix+1))
+      elsif curr_location.size_fix == 5
+        this_location.size_fix = Random.rand((curr_location.size_fix-1)..(curr_location.size_fix))
+      elsif curr_location.size_fix == 1
+        this_location.size_fix = Random.rand((curr_location.size_fix)..(curr_location.size_fix+1))
+      end
+      this_location.size = this_location.size_fix*200 + Random.rand(100)
+
       this_location.connect = curr_location.id.to_s
       this_location.compass = cord[0].to_s+', '+cord[1].to_s
-
 
       this_location.finder = current_user.characters.where(Status: 1).first.FirstName
 
@@ -254,7 +267,7 @@ private
 # Dungeons rooms has 5% to contain a boss
 # Dungeons rooms has 50% to contain 0 to max_amount_monster
 
-    if Random.rand(10000) < 1
+    if Random.rand(1000) < 1
       dungeon = Dungeons.new
       dungeon.name = 'Dungeon Name Generator'
       dungeon.location = location.id
@@ -284,10 +297,12 @@ private
         cave.explored = 0
         cave.typ = ''
         materials.each do |m|
-          if m.biome.include? location.biome
-            if Random.rand(1) == 0
-              if Random.rand(m.rarity) == 0
-                cave.typ = m.name
+          if m.biome.include? 'Cave'
+            if m.biome.include? location.biome
+                if Random.rand(1) == 0
+                if Random.rand(m.rarity) == 0
+                  cave.typ = m.name
+                end
               end
             end
           end
@@ -306,8 +321,8 @@ private
             material.name = m.name
             material.typ = m.typ
             material.amount = Random.rand(quanity) + quanity
-            material.loot_chance = Random.rand(m.rarity)+(m.rarity/4)
-            material.find_chance = Random.rand(m.rarity)+(m.rarity/4)
+            material.loot_chance = Random.rand(m.rarity)+(m.rarity/4) + 1
+            material.find_chance = Random.rand(m.rarity)+(m.rarity/4) + 1
             material.location = location.id
             material.weight = Random.rand(m.size/2) + (m.size/2)
             material.explored = 0

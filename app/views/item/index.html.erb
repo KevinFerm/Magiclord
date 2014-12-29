@@ -16,7 +16,21 @@
                       <li>
                       <%= item.name %>
                         (Weight: <%= item.weight %>)
-                        <%= form.check_box :selected %>
+                        <%= form.select :action, options_for_select([["None", ""], ["Move", "move"],["Drop", "drop"], ["Break", "break"], ["Blueprint", "blueprint"], ["Delete", "delete"]]) %>
+                        <script>
+                            $('select#item_action').on('change', function(event) {
+                                var selected_action = $(this).val();
+                                alert(selected_action);
+                                $.ajax({url: '/item/item_action', data: { id: <%= item.id %>, action: selected_action},
+                                    success : function (response, textS, xhr) {
+                                        alert("ok");
+                                    },
+                                    error : function (xmlHttpRequest, textStatus, errorThrown) {
+                                        alert("not ok " + errorThrown);
+                                    }
+                                });
+                            })
+                        </script>
                       </li>
                   <% end %>
                   </ul>
@@ -26,5 +40,4 @@
         </li>
     <% end %>
     </ul>
-    <%= form.select :action, options_for_select([["Move", "move"],["Drop", "drop"], ["Delete", "delete"]]) %>
 <% end %>

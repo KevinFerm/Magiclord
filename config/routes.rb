@@ -13,10 +13,17 @@ Rails.application.routes.draw do
   post 'worlds/claim_area' => "worlds#claim_area"
   post 'worlds/search_location' => "worlds#search_location"
   post 'worlds/collect_world_item' => "worlds#collect_world_item"
-  resources :characters
+  post 'worlds/get_teleport' => "worlds#get_teleport"
+  get 'worlds/teleport' => "worlds#teleport"
+  post 'item/item_action' => "item#item_action"
+  resources :characters do
+    resource :items
+  end
   resources :worlds
   resources :guide
   resources :item
+  resources :npc
+  resources :lock
   resources :inventory do
     resources :items
   end

@@ -1,0 +1,7 @@
+<% @items_to_craft.each do |i| %>
+<%= i.name %>
+Cost:
+    <%= i.size / (i.weight/2) %>
+    <%= i.material %>
+<br/>
+<% end %>
