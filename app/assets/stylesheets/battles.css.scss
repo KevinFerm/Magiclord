@@ -1,0 +1,19 @@
+// Place all the styles related to the Battles controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.tooltip span {
+  display:none;
+}
+.tooltip:hover span {
+  text-align: left;
+  display:block;
+  position:fixed;
+  overflow:hidden;
+  background: white;
+  border-color: black;
+  border-width: 2px;
+  border-radius: 5px;
+  border-style: solid;
+  padding: 5px
+}

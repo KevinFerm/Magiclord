@@ -1,0 +1,35 @@
+<% content_for :javascripts  do %>
+    <script src="/assets/magic_parts.js.coffee?body=1"></script>
+<% end %>
+<%= form_for(@magic_part) do |f| %>
+  <% if @magic_part.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@magic_part.errors.count, "error") %> prohibited this magic_part from being saved:</h2>
+
+      <ul>
+      <% @magic_part.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :type %><br>
+    <%= f.select :type, options_for_select([["None", "none"],["Target", "target"],["Damage", "damage"],["Effect", "effect"],["Trigger","trigger"]])%>
+  </div>
+    <div id="selected">
+
+    </div>
+  <div class="field">
+    <%= f.label :effect %><br>
+    <%= f.text_field :effect %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

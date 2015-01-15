@@ -1,0 +1,2 @@
+module MagicPartsHelper
+end

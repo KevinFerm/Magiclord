@@ -62,15 +62,23 @@
 <table class="pure-table pure-table-striped">
   <tr>
     <th>NPC</th>
-    <th>Action</th>
+    <th colspan="4">Action</th>
   </tr>
   <% @npcs.each do |npc| %>
       <tr>
         <td><a href="npc/<%= npc.id %>"><%= npc.Race %></a></td>
-        <td><a href="npc/<%= npc.id %>">Talk</a> |
-          <a href="npc/<%= npc.id %>">Attack</a> |
-          <a href="npc/<%= npc.id %>">Analyze</a> |
-          <a href="npc/<%= npc.id %>">Steal</a></td>
+        <td>
+          <button>Talk</button>
+        </td>
+        <td>
+          <%= button_to 'Attack', { :controller => 'worlds', :action => 'attack', :params => {:target_id => npc.id, :npc => true}}, {:class => "urlbtn" } %>
+        </td>
+        <td>
+          <button>Analyze</button>
+        </td>
+        <td>
+          <button>Steal</button>
+        </td>
       </tr>
   <% end %>
 </table>
@@ -78,15 +86,24 @@
 <table class="pure-table pure-table-striped">
   <tr>
     <th>Player</th>
-    <th>Action</th>
+    <th colspan="4">Action</th>
   </tr>
   <% @players.each do |player| %>
       <% if player.id != @my_player.id && player.Status == 1 %>
           <tr>
             <td><a href="character/<%= player.id %>"><%= player.FirstName %></a></td>
-            <td><a href="character/<%= player.id %>">Talk</a> |
-              <a href="character/<%= player.id %>">Attack</a> |
-              <a href="character/<%= player.id %>">Steal</a></td>
+            <td>
+              <button>Talk</button>
+            </td>
+            <td>
+              <%= button_to 'Attack', { :controller => 'worlds', :action => 'attack', :target_id => player.id, :npc => false}, {:class => "urlbtn" } %>
+            </td>
+            <td>
+              <button>Analyze</button>
+            </td>
+            <td>
+              <button>Steal</button>
+            </td>
           </tr>
 <% end %>
 <% end %>

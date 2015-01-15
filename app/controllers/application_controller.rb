@@ -1,8 +1,9 @@
 class ApplicationController < ActionController::Base
-  helper_method :have_character, :max_health, :compass, :has_item
+  helper_method :check_path, :attack, :have_character, :max_health, :max_stamina, :compass, :has_item
+
   def have_character
     if user_signed_in?
-      @user = current_user.characters.where(Status: 1).inspect
+      @user = current_user.characters.where(Status: 1).first
       if @user.nil?
         return false
       else
@@ -11,9 +12,22 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def check_path
+    if !have_character
+      redirect_to new_character_path
+    end
+    if session[:battle]
+      redirect_to battle_path
+    end
+  end
+
   #Get max health of given npc or character
   def max_health(stats)
     return ((stats.Strength+stats.Agility+stats.Intelligence+stats.Stamina)/4)*((stats.Stamina+stats.Strength)/2)
+  end
+
+  def max_stamina(stats)
+    return ((stats.Stamina*3)+stats.Strength)*2
   end
 
   #Get direction from start to end

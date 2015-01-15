@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  parts: MyString
+  type: 
+  ep: 
+  effect: MyString
+  item_id: 
+
+two:
+  title: MyString
+  parts: MyString
+  type: 
+  ep: 
+  effect: MyString
+  item_id: 

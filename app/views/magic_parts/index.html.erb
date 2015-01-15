@@ -1,0 +1,29 @@
+<h1>Listing magic_parts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Type</th>
+      <th>Effect</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @magic_parts.each do |magic_part| %>
+      <tr>
+        <td><%= magic_part.title %></td>
+        <td><%= magic_part.type %></td>
+        <td><%= magic_part.effect %></td>
+        <td><%= link_to 'Show', magic_part %></td>
+        <td><%= link_to 'Edit', edit_magic_part_path(magic_part) %></td>
+        <td><%= link_to 'Destroy', magic_part, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Magic part', new_magic_part_path %>

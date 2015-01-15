@@ -1,0 +1,35 @@
+<h1>Listing pearls</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Parts</th>
+      <th>Type</th>
+      <th>Ep</th>
+      <th>Effect</th>
+      <th>Item</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pearls.each do |pearl| %>
+      <tr>
+        <td><%= pearl.title %></td>
+        <td><%= pearl.parts %></td>
+        <td><%= pearl.type %></td>
+        <td><%= pearl.ep %></td>
+        <td><%= pearl.effect %></td>
+        <td><%= pearl.item %></td>
+        <td><%= link_to 'Show', pearl %></td>
+        <td><%= link_to 'Edit', edit_pearl_path(pearl) %></td>
+        <td><%= link_to 'Destroy', pearl, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Pearl', new_pearl_path %>

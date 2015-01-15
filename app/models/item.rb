@@ -1,4 +1,5 @@
 class Item < ActiveRecord::Base
   belongs_to :inventory
-  belongs_to :character
+  has_many :inventories
+  has_many :pearls
 end

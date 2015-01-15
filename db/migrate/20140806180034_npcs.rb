@@ -14,6 +14,7 @@ class Npcs < ActiveRecord::Migration
       t.integer :Stamina
       t.integer :Curr_Stamina
       t.integer :Curr_Hp
+      t.string :effect
       t.integer :location
       t.boolean :animal
       t.boolean :mount

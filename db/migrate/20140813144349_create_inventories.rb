@@ -4,7 +4,8 @@ class CreateInventories < ActiveRecord::Migration
       t.string :name
       t.integer :size
       t.integer :max_weight
-      t.integer :item_id
+      t.references :item, index: true
+      t.references :character, index: true
       t.timestamps
     end
   end

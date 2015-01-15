@@ -1,0 +1,202 @@
+<% content_for :javascripts  do %>
+    <script src="/assets/battles.js.coffee?body=1"></script>
+<% end %>
+<span id="timer"></span>
+<div id="teams">
+    <% i_am_ready = false
+       @teams.each_with_index do |players, i| %>
+        <table class="pure-table pure-table-horizontal">
+          <caption><h1>Team <%= i + 1 %></h1></caption>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>
+              Health
+            </th>
+            <th>
+              Equipments
+            </th>
+            <th>
+              Buffs / Debuffs
+            </th>
+            <th>
+              Status
+            </th>
+            <th>
+
+            </th>
+          </tr>
+          <% players.each_with_index do |player, j| %>
+          <%
+             user = player[:player]
+             equip = player[:equip]
+          %>
+          <tr>
+            <td class="tooltip">
+              <%= user.FirstName %>
+              <span>
+                Age: <%= user.Age %> <br/>
+                Class: <%= user.Class %> <br/>
+                Race: <%= user.Race %> <br/>
+              </span>
+            </td>
+            <td>
+              <%= user.Curr_Hp %>
+            </td>
+            <td class="tooltip">
+              <% if !equip.nil? %>
+                  Equipments
+                  <span>
+                  <% equip.each do |item|%>
+                    <%= item.name %>
+                        <% if item != equip.last %>
+                            <br/>
+                        <% end %>
+                  <% end %>
+                  </span>
+              <% else %>
+                None
+              <% end %>
+            </td>
+            <td class="tooltip">
+              <% json = JSON.parse(user.effect)  %>
+                <% if json.length == 0 %>
+                  None
+                <% else %>
+                  <% if json.length == 1 %>
+                    Effect
+                  <% else %>
+                    Effects
+                  <% end  %>
+                  <span>
+                    <% json.each do |effects| %>
+                        <% effects.each do |key, effect| %>
+                            <%= key %> do <%= effect["damage"] %> damage for <%= effect["turn"] %> more turns.
+                        <% end %>
+                    <% end %>
+                  </span>
+                <% end %>
+            </td>
+            <% if defined? user.mount %>
+                <td style="background-color: orange;" class="tooltip" id="status_npc_<%= user.id %>">
+                  <span id="status_span_char_<%= user.id %>">NPC's are always ready, are you?</span>
+                </td>
+                <td>
+                  <input type="radio" name="to_attack" value="npc_<%= user.id %>" class="attack_select">
+                </td>
+            <% else %>
+                <% if @found_team[i]['players'][j]['attack']['id'] == 0 %>
+                    <td style="background-color: red;"  class="tooltip" id="status_char_<%= user.id %>">
+                      <span id="status_span_char_<%= user.id %>">Player is not ready yet</span>
+                    </td>
+                    <td>
+                      <input type="radio" name="to_attack" value="char_<%= user.id %>" class="attack_select">
+                    </td>
+                <% else %>
+                    <%
+                       if @found_team[i]['players'][j]['id'] == @user_char.id
+                         i_am_ready = true
+                       end
+                    %>
+                    <td style="background-color: green;"  class="tooltip" id="status_char_<%= user.id %>">
+                      <span id="status_span_char_<%= user.id %>">This player has taken an action</span>
+                    </td>
+                    <td>
+                      <input type="radio" name="to_attack" value="char_<%= user.id %>" class="attack_select">
+                    </td>
+                <% end %>
+          <% end %>
+          </tr>
+          <% end %>
+        </table>
+    <% end %>
+</div>
+
+<% # v Fix this session once the gem system is added %>
+<div id="attacks">
+    <table id="attack" class="pure-table pure-table-horizontal">
+      <caption><h1>Attack</h1></caption>
+      <tr>
+        <th>
+          Name
+        </th>
+        <th>
+          Type
+        </th>
+        <th class="tooltip">
+          Damage
+          <span>
+            Damage is how much life you take from target
+            <br/>
+            Effects is extra stuff that happens
+          </span>
+        </th>
+        <th class="tooltip">
+          Cost
+          <span>
+            Magic uses EP
+            <br/>
+            Melee uses Stamina
+          </span>
+        </th>
+        <th>
+
+        </th>
+      </tr>
+      <% #Loop attacks here! %>
+      <% @pearls.each do |attack| %>
+          <tr>
+            <td>
+              <div class="tooltip"><%= attack.title %><span><%= attack.desc %></span></div>
+            </td>
+            <td>
+              <%= attack.type %>
+            </td>
+            <td>
+              <% effect = JSON.parse(attack.effect)%>
+              <%= effect["damage"] %>
+              <% if effect.length >= 2 %>
+              + <effect class="tooltip">Effect
+                  <span>
+                    <% if !effect["dot"].nil? %>
+                        <%= effect["dot"]["damage"] %> damage for <%= effect["dot"]["turn"] %> turns, on <%= effect["dot"]["target"] %>
+                    <% end %>
+                    <% if !effect["hot"].nil? %>
+                        <%= effect["hot"]["heal"] %> damage heal for <%= effect["hot"]["turn"] %> turns, on <%= effect["hot"]["target"] %>
+                    <% end %>
+                  </span>
+                </effect>
+              <% end %>
+            </td>
+            <td>
+              <%= attack.ep %>/<%= attack.curr_ep %>
+            </td>
+            <td>
+              <input type="radio" name="attack" value="<%= attack.id %>" class="attack_select">
+            </td>
+      <% end %>
+      <tr>
+    </table>
+</div>
+<% # ^ Fix this session once the gem system is added %>
+
+<br/>
+<table>
+  <tr>
+    <td>
+      <button class="tooltip action" id="send_attack" data-name="<%= @user_char.FirstName %>" data-battle="<%= @battle_id %>">Attack<span>Pressing this will do the chosen attack on chosen entity</span></button>
+    </td>
+    <td>
+      <button class="tooltip action" id="send_dodge" data-name="<%= @user_char.FirstName %>" data-battle="<%= @battle_id %>">Dodge<span>Pressing this will add a chance to dodge the next attack chosen entity do</span></button>
+    </td>
+    <td class="tooltip action">
+      <%= button_to 'Join', { :controller => 'battles', :action => 'join', :battle_id => @battle_id, :player_id => @user_char.id}, form_class: "button_join" %>
+        <span>Go in to targets team</span></button>
+    </td>
+    <td class="tooltip action">
+      <%= button_to 'Run', { :controller => 'battles', :action => 'escape', :battle_id => @battle_id, :player_id => @user_char.id} %>
+      <span>Try to run away from the battle <br/> You get moved to random location around you if you succeed</span>
+    </td>
+  </tr>
+</table>

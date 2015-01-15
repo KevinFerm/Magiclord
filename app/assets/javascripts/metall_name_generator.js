@@ -1,7 +1,3 @@
-/**
- * Created by Denaton on 2014-12-28.
- * Template for generating a new metal and other materials, need to be converted to a model and ruby lang
- */
 function nameGen(){
 
     var characters1 = ["b", "c", "d", "f", "g", "h", "i", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"];

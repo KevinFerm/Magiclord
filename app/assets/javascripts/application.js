@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require purecss-dropdown
 //= require dragdealer
+//= require socket.io
 //= require main

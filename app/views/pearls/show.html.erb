@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @pearl.title %>
+</p>
+
+<p>
+  <strong>Parts:</strong>
+  <%= @pearl.parts %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @pearl.type %>
+</p>
+
+<p>
+  <strong>Ep:</strong>
+  <%= @pearl.ep %>
+</p>
+
+<p>
+  <strong>Effect:</strong>
+  <%= @pearl.effect %>
+</p>
+
+<p>
+  <strong>Item:</strong>
+  <%= @pearl.item %>
+</p>
+
+<%= link_to 'Edit', edit_pearl_path(@pearl) %> |
+<%= link_to 'Back', pearls_path %>

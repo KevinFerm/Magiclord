@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140830123517) do
+ActiveRecord::Schema.define(version: 20150113012425) do
+
+  create_table "battles", force: true do |t|
+    t.string   "contestant"
+    t.integer  "phase"
+    t.integer  "location"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "biomes", force: true do |t|
     t.string   "title"
@@ -35,18 +43,19 @@ ActiveRecord::Schema.define(version: 20140830123517) do
   create_table "characters", force: true do |t|
     t.string   "FirstName"
     t.string   "Age"
-    t.string   "Profession",   default: "0"
+    t.string   "Primary_Profession"
+    t.string   "Secondary_Profession"
     t.string   "Race"
     t.string   "LastName"
     t.string   "Class"
-    t.string   "Equipment",    default: "0"
-    t.integer  "Status",       default: 1
-    t.integer  "Strength",     default: 10
-    t.integer  "Agility",      default: 10
-    t.integer  "Intelligence", default: 10
-    t.integer  "Stamina",      default: 10
-    t.integer  "Curr_Stamina", default: 10
-    t.integer  "Curr_Hp",      default: 10
+    t.integer  "Status",               default: 1
+    t.integer  "Strength",             default: 10
+    t.integer  "Agility",              default: 10
+    t.integer  "Intelligence",         default: 10
+    t.integer  "Stamina",              default: 10
+    t.integer  "Curr_Stamina",         default: 10
+    t.integer  "Curr_Hp",              default: 10
+    t.string   "effect"
     t.integer  "location"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -94,16 +103,19 @@ ActiveRecord::Schema.define(version: 20140830123517) do
     t.integer  "size"
     t.integer  "max_weight"
     t.integer  "item_id"
+    t.integer  "character_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "inventories", ["character_id"], name: "index_inventories_on_character_id"
+  add_index "inventories", ["item_id"], name: "index_inventories_on_item_id"
 
   create_table "items", force: true do |t|
     t.string   "name"
     t.integer  "size"
     t.integer  "weight"
     t.integer  "inventory_id"
-    t.integer  "character_id"
     t.string   "material"
     t.string   "equip"
     t.boolean  "blueprint"
@@ -111,7 +123,6 @@ ActiveRecord::Schema.define(version: 20140830123517) do
     t.datetime "updated_at"
   end
 
-  add_index "items", ["character_id"], name: "index_items_on_character_id"
   add_index "items", ["inventory_id"], name: "index_items_on_inventory_id"
 
   create_table "keys", force: true do |t|
@@ -137,6 +148,14 @@ ActiveRecord::Schema.define(version: 20140830123517) do
     t.integer  "splint5"
     t.integer  "splint6"
     t.integer  "quality"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "magic_parts", force: true do |t|
+    t.string   "title"
+    t.string   "type"
+    t.string   "effect"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -168,6 +187,7 @@ ActiveRecord::Schema.define(version: 20140830123517) do
     t.integer  "Stamina"
     t.integer  "Curr_Stamina"
     t.integer  "Curr_Hp"
+    t.string   "effect"
     t.integer  "location"
     t.boolean  "animal"
     t.boolean  "mount"
@@ -175,6 +195,21 @@ ActiveRecord::Schema.define(version: 20140830123517) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "pearls", force: true do |t|
+    t.string   "title"
+    t.string   "parts"
+    t.string   "type"
+    t.integer  "ep"
+    t.integer  "curr_ep"
+    t.string   "effect"
+    t.string   "desc"
+    t.integer  "item_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "pearls", ["item_id"], name: "index_pearls_on_item_id"
 
   create_table "races", force: true do |t|
     t.string "race"

@@ -1,5 +1,8 @@
-<%= form_for :character, url: characters_path do |f| %>
-    <%= @char.inspect %>
+<% content_for :javascripts  do %>
+    <script src="/assets/characters.js.coffee?body=1"></script>
+<% end %>
+<%= @char.inspect %>
+<%= form_for :character , url: characters_path, :html => {:class => 'pure-form'} do |f| %>
     <p>
       <%= f.label :FirstName %><br>
       <%= f.text_field :FirstName %>
@@ -15,7 +18,7 @@
     </p>
     <p>
       <%= f.label :Class %><br>
-      <%= f.select :Class, options_for_select([["Warrior", "warrior"],["Priest", "priest"], ["Wizard", "wizard"], ["Scholar", "Scholar"], ["Merchant", "merchant"], ["Hunter", "hunter"], ["Thief", "thief"], ["Assassin", "assassin"], ["Tinkerer", "tinkerer"]]) %>
+      <%= f.select :Class, options_for_select([["Warrior", "warrior"],["Priest", "priest"], ["Wizard", "wizard"], ["Scholar", "scholar"], ["Merchant", "merchant"], ["Hunter", "hunter"], ["Thief", "thief"], ["Assassin", "assassin"], ["Tinkerer", "tinkerer"]]) %>
     </p>
     <p>
       <%= f.label :Race %><br>
@@ -28,12 +31,48 @@
     <p id="secondary_Profession">
 
     </p>
+    <p id="stat">Stats: 10</p>
+    <p>
+        <table>
+          <tr>
+            <td>Strength:</td>
+            <td>
+                <button type='button' class='pure-button update_stat str' value='1'>+</button>
+                <input style="color:black;" class="pure-input-1-4" id="str" name="character[Strength]" type="text" value="" readOnly="true">
+                <button type='button' class='pure-button update_stat str' value='-1'>-</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Agility:</td>
+            <td>
+                <button type='button' class='pure-button update_stat agi' value='1'>+</button>
+                <input style="color:black;" class="pure-input-1-4" id="agi" name="character[Agility]" type="text" value="" readOnly="true">
+                <button type='button' class='pure-button update_stat agi' value='-1'>-</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Intelligence:</td>
+            <td>
+                <button type='button' class='pure-button update_stat int' value='1'>+</button>
+                <input style="color:black;" class="pure-input-1-4" id="int" name="character[Intelligence]" type="text" value="" readOnly="true">
+                <button type='button' class='pure-button update_stat int' value='-1'>-</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Stamina:</td>
+            <td>
+                <button type='button' class='pure-button update_stat sta' value='1'>+</button>
+                <input style="color:black;" class="pure-input-1-4" id="sta" name="character[Stamina]" type="text" value="" readOnly="true">
+                <button type='button' class='pure-button update_stat sta' value='-1'>-</button>
+            </td>
+          </tr>
+        </table>
+    </p>
     <p>
       <%= f.label :Start_Area %><br>
-      <%= f.select :Start_Area, options_for_select([["World Center", "0,0"], ["West", "-100,0"], ["East", "100,0"], ["North", "0,100"], ["South", "0,-100"], ["Random", "558,-210"]]) %>
+      <%= f.select :location, options_for_select([["World Center", "1"], ["West", "1"], ["East", "1"], ["North", "1"], ["South", "1"], ["Random", "1"]]) %>
     </p>
     <p>
       <%= f.submit "Generate New Character" %>
     </p>
 <% end %>
-</table>

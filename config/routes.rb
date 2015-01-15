@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  resources :magic_parts
+
+  resources :pearls
+
+  resources :battles
+
   get 'item/index'
 
   devise_for :users, :controllers => { registrations: 'registrations_' }
@@ -11,6 +17,9 @@ Rails.application.routes.draw do
   root 'home#index'
   post 'worlds/generate_new_area' => "worlds#generate_new_area"
   post 'worlds/claim_area' => "worlds#claim_area"
+  post 'worlds/attack' => "worlds#attack"
+  post 'battles/escape' => "battles#escape"
+  post 'battles/join' => "battles#join"
   post 'worlds/search_location' => "worlds#search_location"
   post 'worlds/collect_world_item' => "worlds#collect_world_item"
   post 'worlds/teleport' => "worlds#get_teleport"

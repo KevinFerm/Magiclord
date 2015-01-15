@@ -3,11 +3,11 @@ class CreateCharacters < ActiveRecord::Migration
     create_table :characters do |t|
       t.string :FirstName
       t.string :Age
-      t.string :Profession, :default => 0
+      t.string :Primary_Profession
+      t.string :Secondary_Profession
       t.string :Race
       t.string :LastName
       t.string :Class
-      t.string :Equipment, :default => 0
       t.integer :Status, :default => 1
       t.integer :Strength, :default => 10
       t.integer :Agility, :default => 10
@@ -15,6 +15,7 @@ class CreateCharacters < ActiveRecord::Migration
       t.integer :Stamina, :default => 10
       t.integer :Curr_Stamina, :default => 10
       t.integer :Curr_Hp, :default => 10
+      t.string :effect
       t.integer :location
       t.references :user, index: true
 

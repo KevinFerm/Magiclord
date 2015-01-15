@@ -1,0 +1,47 @@
+<% content_for :javascripts  do %>
+    <script src="/assets/pearls.js.coffee?body=1"></script>
+<% end %>
+<%= form_for(@pearl) do |f| %>
+  <% if @pearl.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@pearl.errors.count, "error") %> prohibited this pearl from being saved:</h2>
+
+      <ul>
+      <% @pearl.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :parts %><br>
+    <%= f.text_field :parts %>
+  </div>
+  <div class="field">
+    <%= f.label :type %><br>
+    <%= f.select :type, options_for_select([["None", "none"],["Target", "target"],["Self", "self"],["Area of Effect", "aoe"],["Team","team"]])%>
+  </div>
+    <div id="selected">
+
+    </div>
+  <div class="field">
+    <%= f.label :ep %><br>
+    <%= f.number_field :ep %>
+  </div>
+  <div class="field">
+    <%= f.label :effect %><br>
+    <%= f.text_field :effect %>
+  </div>
+  <div class="field">
+    <%= f.label :item_id %><br>
+    <%= f.text_field :item_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

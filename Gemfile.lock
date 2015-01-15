@@ -135,6 +135,7 @@ DEPENDENCIES
   execjs
   jbuilder (~> 2.0)
   jquery-rails
+  json (~> 1.8.1)
   pure-css-rails (~> 0.5.0.1)
   rails (= 4.1.1)
   sass-rails (~> 4.0.3)

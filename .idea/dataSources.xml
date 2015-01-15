@@ -4,13 +4,13 @@
     <data-source source="LOCAL" name="Rails Magiclord: development" uuid="22ee522d-24dd-4d34-9724-688a6cd6141e">
       <driver-ref>sqlite.xerial</driver-ref>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\wamp\www\Magiclord\db\development.sqlite3</jdbc-url>
+      <jdbc-url>jdbc:sqlite:Q:\Vagrant\Magiclord\db\development.sqlite3</jdbc-url>
       <libraries />
     </data-source>
     <data-source source="LOCAL" name="Rails Magiclord: test" uuid="97d3d651-be7b-431e-bd4c-65b771ad6785">
       <driver-ref>sqlite.xerial</driver-ref>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\wamp\www\Magiclord\db\test.sqlite3</jdbc-url>
+      <jdbc-url>jdbc:sqlite:Q:\Vagrant\Magiclord\db\test.sqlite3</jdbc-url>
       <libraries />
     </data-source>
     <data-source source="LOCAL" name="Rails Magiclord: test" uuid="d7da976e-3d37-4bdb-8552-c94fe78ec665">
@@ -21,4 +21,3 @@
     </data-source>
   </component>
 </project>
-

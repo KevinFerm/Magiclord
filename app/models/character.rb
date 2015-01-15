@@ -3,4 +3,5 @@ class Character < ActiveRecord::Base
   belongs_to :user
   belongs_to :charclass
   belongs_to :race
+  has_many :inventories
 end

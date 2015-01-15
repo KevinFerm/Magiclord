@@ -1,5 +1,9 @@
 class WorldsController < ApplicationController
   def index #Index
+    if session[:battle]
+      redirect_to battles_path
+      return
+    end
     @location = get_location
     if @location.connect != '' # If its not empty fetch them. Should always be one since we should be able to return
       @connects = @location.connect.split(', ')
@@ -116,6 +120,41 @@ class WorldsController < ApplicationController
     curr_location.owner = current_user.characters.where(Status: 1).first.FirstName
     curr_location.save
     redirect_to worlds_path
+  end
+
+  def attack
+    me = current_user.characters.where(Status: 1).first
+    Battle.where(location: session[:location]).each do |battle|
+      all = JSON.parse(battle.contestant)
+      for i in 0..all.length-1
+        for j in 0..all[i]['players'].length-1
+          puts (all[i]['players'][j]["id"].to_i)
+          puts (params[:target_id].to_i)
+          puts (all[i]['players'][j]["npc"].to_s == params[:npc].to_s)
+          puts ("-----")
+          if all[i]['players'][j]["id"].to_i == params[:target_id].to_i && all[i]['players'][j]["npc"].to_s == params[:npc].to_s
+            session[:battle] = true
+            all << {'players' => [{"id" => me.id, "npc" => false, "attack" =>{"id" => 0, "target" => 0,"npc" => nil}}]}
+            #puts all
+            all = all.to_s
+            all = all.gsub! '=>', ':'
+            all = all.gsub! 'nil', 'null'
+            battle.contestant = all
+            battle.save
+            redirect_to battles_path
+            return
+          end
+        end
+      end
+    end
+    # Create a new combat if target is already in a fight!
+    battle = Battle.new
+    battle.location = session[:location]
+    battle.contestant = '[{"players":[{"id":'+me.id+',"npc":false,"attack":{"id":0,"target":0,"npc":null}}]},{"players":[{"id":'+params[:target_id].to_i+',"npc":'+params[:npc].to_s+',"attack":{"id":0,"target":0,"npc":null}}]}]'
+    battle.save
+    session[:battle] = true
+    redirect_to battles_path
+    return
   end
 
   def search_location

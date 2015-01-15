@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  contestant: MyString
+  phase: 
+  location: 
+
+two:
+  contestant: MyString
+  phase: 
+  location: 
